@@ -1,10 +1,13 @@
 require_relative '../lib/beacon'
 require_relative '../lib/date_converter'
+require_relative '../lib/responce_processor'
 require 'optparse'
 require 'pry'
 require 'active_support/all'
 
 options = {}
+responce_processor = ResponceProcessor.new
+beacon = Beacon.new
 
 
   OptionParser.new do |opt|
@@ -13,21 +16,17 @@ options = {}
   end.parse!
 
 
-b = Beacon.new
-s = b.get_recent
-b.process s
-b.print
 
+if options!= {}
+  outputs = responce_processor.get_for_period(options[:begin], options[:end])
+  outputs.each do |o|
+    beacon.process o
+  end
+  beacon.print
+else
+  beacon.process responce_processor.get_recent
+  beacon.print
+end
 
-
-
-binding.pry
-
-converter = DateConverter.new
-
-puts options
-
-puts converter.convert_date options[:begin]
-puts converter.convert_date options[:end]
 
 

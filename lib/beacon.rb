@@ -1,24 +1,17 @@
 require 'nokogiri'
 require 'open-uri'
+require_relative 'responce_processor'
 
 
 class Beacon
 
-  attr_accessor :responce
   attr_accessor :res
 
-  CURRENT = "https://beacon.nist.gov/rest/record/last"
-
-
-  def get_recent
-    @responce ||= Nokogiri::XML(open(CURRENT))
-    @responce.css("outputValue").text unless @responce.nil?
+  def initialize
+    @res={}
   end
 
-
   def process value
-    @res = {}
-
     value.split("").each_with_index { |sign, i |
       if @res.has_key?(sign)
         @res[sign]+=1
