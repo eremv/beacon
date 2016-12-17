@@ -9,6 +9,7 @@ class DateConverter
     arr = s.split(" ")
     arr = arr.each_slice(2).to_a
 
+
     raise ArgumentError, 'Argument is not valid' if arr.length ==0
     arr.flatten.each do |e|
       if !(e.in?(PERIODS) || e.to_i.to_s == e)
@@ -25,6 +26,11 @@ class DateConverter
         seconds_ago += e[0].to_i.send(e[1]).seconds
       end
     end
-    (date.to_i - seconds_ago).to_i
+    res = (date.to_i - seconds_ago).to_i
+    if res < 1378395540
+      raise ArgumentError, 'Date predates the start of the beacon'
+    else
+      res
+    end
   end
 end

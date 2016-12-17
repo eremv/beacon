@@ -4,11 +4,6 @@ require 'optparse'
 require 'pry'
 require 'active_support/all'
 
-b = Beacon.new
-s = b.get_recent
-b.process s
-b.print
-
 options = {}
 
 
@@ -16,6 +11,15 @@ options = {}
     opt.on('--from BEGIN') { |o| options[:begin] = o }
     opt.on('--to END') { |o| options[:end] = o }
   end.parse!
+
+
+b = Beacon.new
+s = b.get_recent
+b.process s
+b.print
+
+
+
 
 binding.pry
 
@@ -25,4 +29,5 @@ puts options
 
 puts converter.convert_date options[:begin]
 puts converter.convert_date options[:end]
+
 

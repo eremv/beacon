@@ -1,5 +1,6 @@
 require 'date_converter'
 require 'active_support/all'
+require 'date'
 
 RSpec.describe DateConverter, "#convert_date" do
   let(:converter){ DateConverter.new }
@@ -36,5 +37,12 @@ RSpec.describe DateConverter, "#convert_date" do
     ["", " ", "1 invalid string"].each do |period|
       expect{converter.convert_date(period)}.to raise_error(ArgumentError)
     end
+  end
+
+  it 'should raise ArgumentError if argumants predates the start of the beacon ' do
+      d = DateTime.strptime("1318996912",'%s')
+      d_now = DateTime.now
+      difference = (d_now.year - d.year)*12 + (d_now.month - d.month) + 1
+      expect{converter.convert_date("#{difference} months ago")}.to raise_error(ArgumentError)
   end
 end
