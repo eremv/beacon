@@ -24,7 +24,7 @@ class Beacon
 
   def print
     @res.each { |key, value|
-      puts "#{key.to_s} , #{value.to_s}"
+      puts "#{key.to_s}, #{value.to_s}"
     }
   end
 end
